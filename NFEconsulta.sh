@@ -3,7 +3,7 @@
 # VERSAO 0.1
 # AUTOR CARLOS EDUARDO (DERFOPS@GMAIL.COM)
 # DISPONIVEL EM https://github.com/derfops/NFEconsulta
-# SCRIPT FEITO BASEADO NO AUTORIZADOR SVRS
+# SCRIPT FEITO BASEADO NO AUTORIZADOR CONSULTA_AUTORIZADOR
 
 # VARIAVEIS
 CURL=$(which curl)
@@ -16,18 +16,18 @@ ARQUIVO_TEMPORARIO="/tmp/statusNFE.txt"
 # DOWNLOAD
 $CURL -s -o $ARQUIVO_TEMPORARIO "$LINK"
 
-# SVRS (ALTERE DE ACORDO COM O SEU AUTORIZADOR)
-# 
-SVRS=$($CAT $ARQUIVO_TEMPORARIO | $EGREP "<td>SVRS</td>")
-STATUS_RECEPCAO=$(echo $SVRS | $AWK -F '<img src="' '{print $2}' | $AWK -F '"' '{print $1}')
-STATUS_RETORNO_RECEPCAO=$(echo $SVRS | $AWK -F '<img src="' '{print $3}' | $AWK -F '"' '{print $1}')
-STATUS_INUTILIZACAO=$(echo $SVRS | $AWK -F '<img src="' '{print $4}' | $AWK -F '"' '{print $1}')
-STATUS_CONSULTA_PROTOCOLO=$(echo $SVRS | $AWK -F '<img src="' '{print $5}' | $AWK -F '"' '{print $1}')
-STATUS_SERVICO=$(echo $SVRS | $AWK -F '<img src="' '{print $6}' | $AWK -F '"' '{print $1}')
-STATUS_CONSULTA_CADASTRO=$(echo $SVRS | $AWK -F '<img src="' '{print $7}' | $AWK -F '"' '{print $1}')
-STATUS_RECEPCAO_EVENTO=$(echo $SVRS | $AWK -F '<img src="' '{print $8}' | $AWK -F '"' '{print $1}')
-STATUS_AUTORIZACAO=$(echo $SVRS | $AWK -F '<img src="' '{print $9}' | $AWK -F '"' '{print $1}')
-STATUS_RETORNO_AUTORIZACAO=$(echo $SVRS | $AWK -F '<img src="' '{print $10}' | $AWK -F '"' '{print $1}')
+# CONSULTA AUTORIZADOR (ALTERE DE ACORDO COM O SEU AUTORIZADOR)
+AUTORIZADOR="SVRS" 
+CONSULTA_AUTORIZADOR=$($CAT $ARQUIVO_TEMPORARIO | $EGREP "<td>$AUTORIZADOR</td>")
+STATUS_RECEPCAO=$(echo $CONSULTA_AUTORIZADOR | $AWK -F '<img src="' '{print $2}' | $AWK -F '"' '{print $1}')
+STATUS_RETORNO_RECEPCAO=$(echo $CONSULTA_AUTORIZADOR | $AWK -F '<img src="' '{print $3}' | $AWK -F '"' '{print $1}')
+STATUS_INUTILIZACAO=$(echo $CONSULTA_AUTORIZADOR | $AWK -F '<img src="' '{print $4}' | $AWK -F '"' '{print $1}')
+STATUS_CONSULTA_PROTOCOLO=$(echo $CONSULTA_AUTORIZADOR | $AWK -F '<img src="' '{print $5}' | $AWK -F '"' '{print $1}')
+STATUS_SERVICO=$(echo $CONSULTA_AUTORIZADOR | $AWK -F '<img src="' '{print $6}' | $AWK -F '"' '{print $1}')
+STATUS_CONSULTA_CADASTRO=$(echo $CONSULTA_AUTORIZADOR | $AWK -F '<img src="' '{print $7}' | $AWK -F '"' '{print $1}')
+STATUS_RECEPCAO_EVENTO=$(echo $CONSULTA_AUTORIZADOR | $AWK -F '<img src="' '{print $8}' | $AWK -F '"' '{print $1}')
+STATUS_AUTORIZACAO=$(echo $CONSULTA_AUTORIZADOR | $AWK -F '<img src="' '{print $9}' | $AWK -F '"' '{print $1}')
+STATUS_RETORNO_AUTORIZACAO=$(echo $CONSULTA_AUTORIZADOR | $AWK -F '<img src="' '{print $10}' | $AWK -F '"' '{print $1}')
 
 function consultar_servico() {
 	[ $2 == "imagens/bola_verde_P.png" ] && echo "$1 = ONLINE"
@@ -35,6 +35,7 @@ function consultar_servico() {
 	[ $2 == "imagens/bola_vermelho_P.png" ] && echo "$1 = OFFLINE"
 }
 
+echo "- CONSULTA AO AUTORIZADOR: $AUTORIZADOR"
 consultar_servico "RECEPCAO" $STATUS_RECEPCAO
 consultar_servico "RETORNO RECEPCAO" $STATUS_RETORNO_RECEPCAO
 consultar_servico "INUTILIZACÃO" $STATUS_INUTILIZACAO
