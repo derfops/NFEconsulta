@@ -10,7 +10,6 @@ CURL=$(which curl)
 AWK=$(which awk)
 CAT=$(which cat)
 EGREP=$(which egrep)
-ECHO=$(which echo)
 LINK="http://www.nfe.fazenda.gov.br/portal/disponibilidade.aspx?versao=2.00&tipoConteudo=Skeuqr8PQBY="
 ARQUIVO_TEMPORARIO="/tmp/statusNFE.txt"
 
