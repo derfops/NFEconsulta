@@ -14,7 +14,7 @@ LINK="http://www.nfe.fazenda.gov.br/portal/disponibilidade.aspx?versao=2.00&tipo
 ARQUIVO_TEMPORARIO="/tmp/statusNFE.txt"
 
 # DOWNLOAD
-$CURL -o $ARQUIVO_TEMPORARIO "$LINK"
+$CURL -s -o $ARQUIVO_TEMPORARIO "$LINK"
 
 # SVRS (ALTERE DE ACORDO COM O SEU AUTORIZADOR)
 # 
